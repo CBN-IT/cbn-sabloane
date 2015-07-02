@@ -1,0 +1,136 @@
+<polymer-element name="cbn-sabloane-setari" role="dialog" attributes="namespace,content,initial,item,form,type,editorSablon">
+	<link href="../polymer/polymer.html" rel="import">
+	<link href="../paper-button/paper-button.html" rel="import">
+	<link href="../core-a11y-keys/core-a11y-keys.html" rel="import">
+	<link href="../paper-ripple/paper-ripple.html" rel="import">
+	<template>
+		<link rel="stylesheet" href="cbn-sabloane-setari.css">
+		<style>
+		</style>
+		<div id="body">
+			<div style="margin-bottom:20px">
+                <span style="font-size:20px;font-weight:bold">
+                    {{content.name}}
+                </span>
+			</div>
+			<form id="editElement" on-submit="{{save}}">
+				
+				<div class="column-one">Nume:</div>
+				<div class="column-two"><input value="{{content.numeSablon}}" required></div>
+				<br/>
+				
+				<div class="column-one">Tip generare:</div>
+				<div class="column-two">
+					<select class="select" required value="{{content.tipGenerare}}">
+                        <option></option>
+						<option value="word">Word</option>
+						<option value="excel">Excel</option>
+						<option value="pdf">Pdf</option>
+						<option value="email">Email</option>
+						<option value="formula">Formula</option>
+					</select>
+				</div>
+				<br/>
+				
+				<div class="column-one">Multiplicare procese:</div>
+				<div class="column-two"><input class="checkbox" type="checkbox"
+											   checked="{{content.multiplicareProcese}}"></div>
+				<br/>
+				
+				<div class="column-one">Entitate:</div>
+				<div class="column-two">
+					<select class="select" required value="{{content.entitate}}">
+                        <option></option>
+						<option value="factura">Factura</option>
+						<option value="produs">Produs</option>
+						<option value="client">Client</option>
+						<option value="firma">Firma</option>
+						<option value="cont">Cont</option>
+					</select>
+				</div>
+				<br/>
+				
+				<div class="column-one">Aplica:</div>
+				<div class="column-two">
+					<select class="select" required value="{{content.aplicare}}">
+                        <option></option>
+						<option>Manual</option>
+						<option>Automat</option>
+					</select>
+				</div>
+				<br/>
+				
+				<div class="column-one">Descriere:</div>
+				<div class="three"><textarea style="width:168px;height:40px" value="{{content.description}}"></textarea>
+				</div>
+				
+				
+				<br/>
+				<button type="submit" id="submitJson" style="display:none">Salveaza</button>
+				<br/>
+				<paper-button id="save" on-click="{{clickSave}}" style="background: #4285f4;color: #fff;">Salveaza
+				</paper-button>
+			</form>
+		</div>
+		<core-ajax id="salveazaSablon"
+				   url="/salveaza/SalveazaSablon"
+				   handleAs="json"
+				   params='{{ {"namespace":namespace,"properties":jsonContent} }}'
+				   method="POST"
+		
+				   response="{{responseMenu}}"></core-ajax>
+	</template>
+	<script>
+		(function () {
+			Polymer('cbn-sabloane-setari', {
+				hmtlNames: [],
+                content:{
+                    aplicare: "",
+                    contentSablon: "",
+                    entitate: "",
+                    multiplicareProcese: false,
+                    numeSablon: "",
+                    tipGenerare: ""
+                },
+				clickSave: function (e) {
+					
+					this.$.submitJson.click();
+				},
+				save: function (e, detail, element) {
+					console.log("sss");
+					e.preventDefault();
+					this.$.editElement.checkValidity();
+//					this.initial=this.content;
+                    this.content.contentSablon=this.editorSablon.editorValue;
+					this.jsonContent=JSON.stringify(this.content);
+					this.$.salveazaSablon.go();
+//                    var that=this;
+//                    this.$.salveazaSablon.addEventListener('core-response', function() {
+//                        that.ajaxSabloane.go();
+//                    });
+//                    this.ajaxSabloane.go();
+					alert("ok");
+					
+				},
+				initialChanged: function () {
+//					this.content = JSON.parse(JSON.stringify(this.initial));
+//                    for(var i=0;i<this.form.list.length;i++){
+//                        for(var j=0;j<this.form.list[i].elements.length;j++){
+//                            if(this.form.list[i].elements==this.item.list){
+//                                if(this.form.list[i].elements[j]!=this.item.list[this.index]){
+//                                    this.htmlNames.push(this.form.list[i].elements[j].name);
+//                                }
+//                            }
+//                            else{
+//                                this.htmlNames.push(this.form.list[i].elements[j].name);
+//                            }
+//                        }
+//                    }
+//                    console.log(this.htmlNames);
+				}
+			});
+			
+		})();
+	</script>
+
+</polymer-element>

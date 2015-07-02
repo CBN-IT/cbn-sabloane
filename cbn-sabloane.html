@@ -1,0 +1,78 @@
+<polymer-element name="cbn-sabloane" attributes="namespace,content,initial,item,form,type,editorSablon,dataSablon">
+	<link href="../polymer/polymer.html" rel="import">
+	<link href="../paper-button/paper-button.html" rel="import">
+	<link href="../core-a11y-keys/core-a11y-keys.html" rel="import">
+	<link href="../paper-ripple/paper-ripple.html" rel="import">
+	<link href="cbn-sabloane-setari.html" rel="import">
+	<template>
+
+		<style>
+			#sectionsEdit > div:not(.core-selected) {
+				display: none;
+			}
+
+			.selectedDiv {
+				background-color: white;
+			}
+			paper-tabs::shadow #selectionBar {
+				background-color: #3277ec;
+			}
+			paper-tabs paper-tab::shadow #ink {
+				color: #3277ec;
+			}
+			.tabsForm {
+				height: 43px;
+			}
+			cbn-ace-editor{
+				margin: 0 0 0 14px;
+			}
+		</style>
+		<core-pages selected="{{tabForm}}" target="{{$.sectionsEdit}}"
+					excludedLocalNames="paper-tabs">
+
+
+		</core-pages>
+		<div id="sectionsEdit" fit layout vertical>
+
+
+			<paper-tabs selected="{{tabForm}}" role="tablist" horizontal center layout
+						class="tabsForm" style="">
+				<paper-tab selected role="tab" inline flex center-center horizontal layout class>
+					Configurare
+				</paper-tab>
+				<paper-tab role="tab" inline flex center-center horizontal layout class>Cod sablon
+				</paper-tab>
+
+			</paper-tabs>
+
+			<div class="selectedDiv">
+
+				<cbn-sabloane-setari content="{{dataSablon}}" id="sablon"
+									 namespace="{{namespace}}"
+									 editorSablon="{{$.aceEditor}}"></cbn-sabloane-setari>
+			</div>
+			<div class="selectedDiv" flex style="position: relative">
+				<cbn-ace-editor class="aceElement" id="aceEditor" mode="xml" theme="crimson_editor" fontSize="16px"
+								value="{{dataSablon.contentSablon}}" fit></cbn-ace-editor>
+			</div>
+		</div>
+	</template>
+	<script>
+		(function () {
+			Polymer('cbn-sabloane', {
+				tabForm:0,
+				tabFormChanged: function(){
+					if(this.tabForm===1){
+						this.$.aceEditor.focus();
+						this.$.aceEditor.valueChanged();
+					}
+				},
+				dataSablonChanged: function(){
+					this.tabForm = 0;
+				}
+			});
+				
+		})();
+	</script>
+
+</polymer-element>
