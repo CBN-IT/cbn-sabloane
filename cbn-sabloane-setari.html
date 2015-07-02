@@ -1,4 +1,4 @@
-<polymer-element name="cbn-sabloane-setari" role="dialog" attributes="namespace,content,initial,item,form,type,editorSablon">
+<polymer-element name="cbn-sabloane-setari" role="dialog" attributes="namespace,content,item,form,type,editorSablon">
 	<link href="../polymer/polymer.html" rel="import">
 	<link href="../paper-button/paper-button.html" rel="import">
 	<link href="../core-a11y-keys/core-a11y-keys.html" rel="import">
@@ -77,7 +77,7 @@
 				   handleAs="json"
 				   params='{{ {"namespace":namespace,"properties":jsonContent} }}'
 				   method="POST"
-		
+				   on-core-complete="{{alertSablonSaved}}"
 				   response="{{responseMenu}}"></core-ajax>
 	</template>
 	<script>
@@ -93,43 +93,20 @@
                     tipGenerare: ""
                 },
 				clickSave: function (e) {
-					
 					this.$.submitJson.click();
 				},
 				save: function (e, detail, element) {
 					console.log("sss");
 					e.preventDefault();
 					this.$.editElement.checkValidity();
-//					this.initial=this.content;
                     this.content.contentSablon=this.editorSablon.editorValue;
 					this.jsonContent=JSON.stringify(this.content);
 					this.$.salveazaSablon.go();
-//                    var that=this;
-//                    this.$.salveazaSablon.addEventListener('core-response', function() {
-//                        that.ajaxSabloane.go();
-//                    });
-//                    this.ajaxSabloane.go();
-					alert("ok");
-					
 				},
-				initialChanged: function () {
-//					this.content = JSON.parse(JSON.stringify(this.initial));
-//                    for(var i=0;i<this.form.list.length;i++){
-//                        for(var j=0;j<this.form.list[i].elements.length;j++){
-//                            if(this.form.list[i].elements==this.item.list){
-//                                if(this.form.list[i].elements[j]!=this.item.list[this.index]){
-//                                    this.htmlNames.push(this.form.list[i].elements[j].name);
-//                                }
-//                            }
-//                            else{
-//                                this.htmlNames.push(this.form.list[i].elements[j].name);
-//                            }
-//                        }
-//                    }
-//                    console.log(this.htmlNames);
+				alertSablonSaved: function(){
+					this.fire("sablon-saved");
 				}
 			});
-			
 		})();
 	</script>
 
