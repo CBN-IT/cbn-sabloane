@@ -1,0 +1,13 @@
+{
+    "name": "cbn-sabloane",
+    "private": true,
+    "dependencies": {
+        "polymer": "Polymer/polymer#^0.5",
+        "paper-ripple": "Polymer/paper-ripple#^0.5",
+        "core-a11y-keys": "Polymer/core-a11y-keys#^0.5",
+        "paper-button": "Polymer/paper-button#^0.5"
+    },
+    "devDependencies": {
+    },
+    "version": "0.2.0"
+}
