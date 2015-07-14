@@ -1,6 +1,7 @@
 {
     "name": "cbn-sabloane",
     "private": true,
+    "version": "0.2.0",
     "dependencies": {
         "polymer": "Polymer/polymer#^0.5",
         "paper-ripple": "Polymer/paper-ripple#^0.5",
@@ -8,6 +9,5 @@
         "paper-button": "Polymer/paper-button#^0.5"
     },
     "devDependencies": {
-    },
-    "version": "0.2.0"
+    }
 }
