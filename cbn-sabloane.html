@@ -60,14 +60,7 @@
 								value="{{dataSablon.contentSablon}}" fit></cbn-ace-editor>
 			</div>
 			<div class="selectedDiv" flex style="position: relative" layout vertical>
-<!--				--><textarea style="width:100%" flex>
-<!--					--><import data-adma-import="{{dataSablon._hash}}">
-<!--					-->	{{dataSablon.numeSablon}}
-<!--					-->	{{dataSablon.entitate}}
-<!--					-->	Multiplicare procese: {{dataSablon.multiplicareProcese}}
-<!--					-->	Aplică: {{dataSablon.aplicare}}
-<!--					--></import>
-				</textarea>
+				<textarea style="width:100%" flex value="{{_exportCode(dataSablon._hash, dataSablon.numeSablon, dataSablon.entitate, dataSablon.multiplicareProcese, dataSablon.aplicare)}}"></textarea>
 			</div>
 		</div>
 	</template>
@@ -83,6 +76,15 @@
 				},
 				dataSablonChanged: function(){
 					this.tabForm = 0;
+				},
+				_exportCode: function(){
+					return "<import data-adma-import=\""+this.dataSablon._hash+"\">\n" +
+						"\t"+this.dataSablon.numeSablon+"\n" +
+						"\t"+this.dataSablon.entitate+"\n" +
+						"\tMultiplicare procese: "+this.dataSablon.multiplicareProcese+"\n" +
+						"\tAplică: "+this.dataSablon.aplicare+"\n" +
+						"</import>";
+					
 				}
 			});
 				
