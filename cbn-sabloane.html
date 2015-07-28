@@ -1,4 +1,4 @@
-<polymer-element name="cbn-sabloane" attributes="namespace,content,initial,item,form,type,editorSablon,dataSablon">
+<polymer-element name="cbn-sabloane" attributes="namespace,content,initial,item,form,type,editorSablon,dataSablon,kinds">
 	<link href="../polymer/polymer.html" rel="import">
 	<link href="../paper-button/paper-button.html" rel="import">
 	<link href="../core-a11y-keys/core-a11y-keys.html" rel="import">
@@ -59,14 +59,14 @@
 				<cbn-ace-editor class="aceElement" id="aceEditor" mode="xml" theme="crimson_editor" fontSize="16px"
 								value="{{dataSablon.contentSablon}}" fit></cbn-ace-editor>
 			</div>
-			<div class="selectedDiv" flex style="position: relative">
-				<textarea>
-					<import data-adma-import="{{dataSablon._hash}}">
-						{{dataSablon.numeSablon}}
-						{{dataSablon.entitate}}
-						Multiplicare procese: {{dataSablon.multiplicareProcese}}
-						Aplică: {{dataSablon.aplicare}}
-					</import>
+			<div class="selectedDiv" flex style="position: relative" layout vertical>
+<!--				--><textarea style="width:100%" flex>
+<!--					--><import data-adma-import="{{dataSablon._hash}}">
+<!--					-->	{{dataSablon.numeSablon}}
+<!--					-->	{{dataSablon.entitate}}
+<!--					-->	Multiplicare procese: {{dataSablon.multiplicareProcese}}
+<!--					-->	Aplică: {{dataSablon.aplicare}}
+<!--					--></import>
 				</textarea>
 			</div>
 		</div>
