@@ -40,7 +40,11 @@
 				<paper-tab selected role="tab" inline flex center-center horizontal layout class>
 					Configurare
 				</paper-tab>
-				<paper-tab role="tab" inline flex center-center horizontal layout class>Cod sablon
+				<paper-tab role="tab" inline flex center-center horizontal layout class>
+					Cod sablon
+				</paper-tab>
+				<paper-tab role="tab" inline flex center-center horizontal layout class>
+					Import
 				</paper-tab>
 
 			</paper-tabs>
@@ -54,6 +58,16 @@
 			<div class="selectedDiv" flex style="position: relative">
 				<cbn-ace-editor class="aceElement" id="aceEditor" mode="xml" theme="crimson_editor" fontSize="16px"
 								value="{{dataSablon.contentSablon}}" fit></cbn-ace-editor>
+			</div>
+			<div class="selectedDiv" flex style="position: relative">
+				<textarea>
+					<import data-adma-import="{{dataSablon._hash}}">
+						{{dataSablon.numeSablon}}
+						{{dataSablon.entitate}}
+						Multiplicare procese: {{dataSablon.multiplicareProcese}}
+						Aplică: {{dataSablon.aplicare}}
+					</import>
+				</textarea>
 			</div>
 		</div>
 	</template>
