@@ -80,7 +80,7 @@
 				   params='{{ {"namespace":namespace,"properties":jsonContent} }}'
 				   method="POST"
 				   on-core-complete="{{alertSablonSaved}}"
-				   response="{{responseMenu}}"></core-ajax>
+				   response="{{response}}"></core-ajax>
 	</template>
 	<script>
 		(function () {
@@ -98,7 +98,6 @@
 					this.$.submitJson.click();
 				},
 				save: function (e, detail, element) {
-					console.log("sss");
 					e.preventDefault();
 					this.$.editElement.checkValidity();
                     this.content.contentSablon=this.editorSablon.editorValue;
@@ -106,6 +105,7 @@
 					this.$.salveazaSablon.go();
 				},
 				alertSablonSaved: function(){
+					this.content._hash = this.response._hash;
 					this.fire("sablon-saved");
 				}
 			});

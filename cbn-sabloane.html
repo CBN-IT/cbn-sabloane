@@ -71,6 +71,7 @@
 				tabFormChanged: function(){
 					if(this.tabForm===1){
 						this.$.aceEditor.focus();
+						this.dataSablon.contentSablon=this.$.aceEditor.editorValue;
 						this.$.aceEditor.valueChanged();
 					}
 				},
