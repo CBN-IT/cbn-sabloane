@@ -1,8 +1,8 @@
 <polymer-element name="cbn-sabloane" attributes="namespace,content,initial,item,form,type,editorSablon,dataSablon,kinds">
 	<link href="../polymer/polymer.html" rel="import">
-	<link href="../paper-button/paper-button.html" rel="import">
-	<link href="../core-a11y-keys/core-a11y-keys.html" rel="import">
-	<link href="../paper-ripple/paper-ripple.html" rel="import">
+	<link href="../core-pages/core-pages.html" rel="import">
+	<link href="../paper-tabs/paper-tabs.html" rel="import">
+	<link href="../cbn-ace-editor/cbn-ace-editor.html" rel="import">
 	<link href="cbn-sabloane-setari.html" rel="import">
 	<template>
 
@@ -29,8 +29,6 @@
 		</style>
 		<core-pages selected="{{tabForm}}" target="{{$.sectionsEdit}}"
 					excludedLocalNames="paper-tabs">
-
-
 		</core-pages>
 		<div id="sectionsEdit" fit layout vertical>
 
