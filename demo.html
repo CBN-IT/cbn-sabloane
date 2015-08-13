@@ -1,0 +1,22 @@
+<!doctype html>
+
+<html>
+<head>
+	<link rel="import" href="../polymer/polymer.html">
+	<link rel="import" href="cbn-sabloane.html">
+	<style>
+		html, body {
+			margin: 0;
+			-webkit-tap-highlight-color: transparent;
+			overflow: hidden;
+		}
+
+	</style>
+</head>
+<body fit>
+<template is="auto-binding">
+	<cbn-sabloane id="editorSablon" namespace="{{namespace}}" dataSablon="{{dataSablon}}" kinds="Factura,Proforma,Chitanta,Produs,Client,Firma,Cont,Nedefinit"></cbn-sabloane>
+</template>
+
+</body>
+</html>

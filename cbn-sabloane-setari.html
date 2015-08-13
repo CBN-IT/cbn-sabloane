@@ -1,8 +1,7 @@
-<polymer-element name="cbn-sabloane-setari" role="dialog" attributes="namespace,content,item,form,type,editorSablon">
+<polymer-element name="cbn-sabloane-setari" role="dialog" attributes="namespace,content,item,form,type,editorSablon,kinds">
 	<link href="../polymer/polymer.html" rel="import">
 	<link href="../paper-button/paper-button.html" rel="import">
-	<link href="../core-a11y-keys/core-a11y-keys.html" rel="import">
-	<link href="../paper-ripple/paper-ripple.html" rel="import">
+	<link href="../core-ajax/core-ajax.html" rel="import">
 	<template>
 		<link rel="stylesheet" href="cbn-sabloane-setari.css">
 		<style>
@@ -41,13 +40,7 @@
 				<div class="column-two">
 					<select class="select" required value="{{content.entitate}}">
                         <option></option>
-						<option value="factura">Factura</option>
-						<option value="proforma">Proforma</option>
-						<option value="chitanta">Chitanta</option>
-						<option value="produs">Produs</option>
-						<option value="client">Client</option>
-						<option value="firma">Firma</option>
-						<option value="cont">Cont</option>
+						<option template repeat="{{kind in _kinds}}" value="{{_formatKind(kind)}}">{{kind}}</option>
 					</select>
 				</div>
 				<br/>
@@ -63,7 +56,8 @@
 				<br/>
 				
 				<div class="column-one">Descriere:</div>
-				<div class="three"><textarea style="width:168px;height:40px" value="{{content.description}}"></textarea>
+				<div class="column-two">
+					<textarea style="width:168px;height:40px" value="{{content.description}}"></textarea>
 				</div>
 				
 				<div class="column-one">Nume fisier generat:</div>
@@ -111,6 +105,12 @@
 				alertSablonSaved: function(){
 					this.content._hash = this.response._hash;
 					this.fire("sablon-saved");
+				},
+				_formatKind: function(kind){
+					return kind.toLowerCase();
+				},
+				kindsChanged: function(){
+					this._kinds = this.kinds.split(/[, ]+/g);
 				}
 			});
 		})();
