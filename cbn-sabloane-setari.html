@@ -103,8 +103,9 @@
 				save: function (e, detail, element) {
 					e.preventDefault();
 					this.$.editElement.checkValidity();
-                    this.content.contentSablon=this.editorSablon.editorValue;
-					this.jsonContent=JSON.stringify(this.content);
+					var content=JSON.parse(JSON.stringify(this.content));
+                    content.contentSablon=this.editorSablon.editorValue;
+					this.jsonContent=JSON.stringify(content);
 					this.$.salveazaSablon.go();
 				},
 				alertSablonSaved: function(){
