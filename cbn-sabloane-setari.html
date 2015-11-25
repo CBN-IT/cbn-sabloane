@@ -1,4 +1,5 @@
-<polymer-element name="cbn-sabloane-setari" role="dialog" attributes="namespace,content,item,form,type,editorSablon,kinds">
+<polymer-element name="cbn-sabloane-setari" role="dialog"
+				 attributes="namespace,content,item,form,type,editorSablon,kinds">
 	<link href="../polymer/polymer.html" rel="import">
 	<link href="../paper-button/paper-button.html" rel="import">
 	<link href="../core-ajax/core-ajax.html" rel="import">
@@ -13,15 +14,15 @@
                 </span>
 			</div>
 			<form id="editElement" on-submit="{{save}}">
-				
+
 				<div class="column-one">Nume:</div>
 				<div class="column-two"><input value="{{content.numeSablon}}" required></div>
 				<br/>
-				
+
 				<div class="column-one">Tip generare:</div>
 				<div class="column-two">
 					<select class="select" required value="{{content.tipGenerare}}">
-                        <option></option>
+						<option></option>
 						<option value="word">Word</option>
 						<option value="excel">Excel</option>
 						<option value="pdf">Pdf</option>
@@ -33,40 +34,42 @@
 					</select>
 				</div>
 				<br/>
-				
+
 				<div class="column-one">Multiplicare procese:</div>
 				<div class="column-two"><input class="checkbox" type="checkbox"
 											   checked="{{content.multiplicareProcese}}"></div>
 				<br/>
-				
+
 				<div class="column-one">Entitate:</div>
 				<div class="column-two">
 					<select class="select" required value="{{content.entitate}}">
-                        <option></option>
+						<option></option>
 						<option template repeat="{{kind in _kinds}}" value="{{_formatKind(kind)}}">{{kind}}</option>
 					</select>
 				</div>
 				<br/>
-				
+
 				<div class="column-one">Aplica:</div>
 				<div class="column-two">
 					<select class="select" required value="{{content.aplicare}}">
-                        <option></option>
+						<option></option>
 						<option>Manual</option>
 						<option>Automat</option>
 					</select>
 				</div>
 				<br/>
-				
+
 				<div class="column-one">Descriere:</div>
 				<div class="column-two">
 					<textarea style="width:168px;height:40px" value="{{content.description}}"></textarea>
 				</div>
 				<br/>
+
 				<div class="column-one">Nume fisier generat:</div>
-				<div class="three"><textarea style="width:450px;height:80px" value="{{content.numeFisier}}"></textarea></div>
+				<div class="three"><textarea style="width:450px;height:80px" value="{{content.numeFisier}}"></textarea>
+				</div>
 				<br/>
-				
+
 				<br/>
 				<button type="submit" id="submitJson" style="display:none">Salveaza</button>
 				<br/>
@@ -86,33 +89,33 @@
 		(function () {
 			Polymer('cbn-sabloane-setari', {
 				hmtlNames: [],
-                content:{
-                    aplicare: "",
-                    contentSablon: "",
-                    entitate: "",
-                    multiplicareProcese: false,
-                    numeSablon: "",
-                    tipGenerare: ""
-                },
+				content: {
+					aplicare: "",
+					contentSablon: "",
+					entitate: "",
+					multiplicareProcese: false,
+					numeSablon: "",
+					tipGenerare: ""
+				},
 				clickSave: function (e) {
 					this.$.submitJson.click();
 				},
 				save: function (e, detail, element) {
 					e.preventDefault();
 					this.$.editElement.checkValidity();
-					var content=JSON.parse(JSON.stringify(this.content));
-                    content.contentSablon=this.editorSablon.editorValue;
-					this.jsonContent=JSON.stringify(content);
+					var content = JSON.parse(JSON.stringify(this.content));
+					content.contentSablon = this.editorSablon.editorValue;
+					this.jsonContent = JSON.stringify(content);
 					this.$.salveazaSablon.go();
 				},
-				alertSablonSaved: function(){
+				alertSablonSaved: function () {
 					this.content._hash = this.response._hash;
 					this.fire("sablon-saved");
 				},
-				_formatKind: function(kind){
+				_formatKind: function (kind) {
 					return kind.toLowerCase();
 				},
-				kindsChanged: function(){
+				kindsChanged: function () {
 					this._kinds = this.kinds.split(/[, ]+/g);
 				}
 			});

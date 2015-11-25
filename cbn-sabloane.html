@@ -1,93 +1,341 @@
-<polymer-element name="cbn-sabloane" attributes="namespace,content,initial,item,form,type,editorSablon,dataSablon,kinds">
-	<link href="../polymer/polymer.html" rel="import">
-	<link href="../core-pages/core-pages.html" rel="import">
-	<link href="../paper-tabs/paper-tabs.html" rel="import">
-	<link href="../cbn-ace-editor/cbn-ace-editor.html" rel="import">
-	<link href="cbn-sabloane-setari.html" rel="import">
+<link rel="import" href="../polymer/polymer.html">
+
+
+<link rel="import" href="../cbn-ace-editor/cbn-ace-editor.html">
+<link rel="import" href="../cbn-form/cbn-form.html">
+<link rel="import" href="../cbn-form/elements/polymer-elements.html">
+<link rel="import" href="../cbn-form/cbn-dynamic-form.html">
+<link rel="import" href="../cbn-select/cbn-paper-select.html">
+<link rel="import" href="../cbn-grid/cbn-grid.html">
+
+
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-input/paper-textarea.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../paper-tooltip/paper-tooltip.html">
+
+
+
+<!--
+`cbn-sabloane` 
+
+    <cbn-sabloane></cbn-sabloane>
+
+### Validation
+
+### Styling
+
+@demo demo/index.html
+@class cbn-sabloane
+-->
+
+<dom-module id="cbn-sabloane">
 	<template>
-
 		<style>
-			#sectionsEdit > div:not(.core-selected) {
-				display: none;
+			:host {
+				@apply(--layout-vertical);
 			}
-
-			.selectedDiv {
-				background-color: white;
+			.form cbn-paper-select,
+			.form paper-input,
+			.form cbn-paper-datepicker{
+				padding:0px 10px;
 			}
-			paper-tabs::shadow #selectionBar {
-				background-color: #3277ec;
+			.form paper-input-container{
+				padding: 4px 0;
 			}
-			paper-tabs paper-tab::shadow #ink {
-				color: #3277ec;
+			iron-pages{
+				@apply(--layout-vertical);
+				@apply(--layout-flex);
 			}
-			.tabsForm {
-				height: 43px;
+			section{
+				@apply(--layout-flex);
 			}
-			cbn-ace-editor{
+			cbn-ace-editor {
 				margin: 0 0 0 14px;
 			}
 		</style>
-		<core-pages selected="{{tabForm}}" target="{{$.sectionsEdit}}"
-					excludedLocalNames="paper-tabs">
-		</core-pages>
-		<div id="sectionsEdit" fit layout vertical>
-
-
-			<paper-tabs selected="{{tabForm}}" role="tablist" horizontal center layout
-						class="tabsForm" style="">
-				<paper-tab selected role="tab" inline flex center-center horizontal layout class>
-					Configurare
-				</paper-tab>
-				<paper-tab role="tab" inline flex center-center horizontal layout class>
-					Cod sablon
-				</paper-tab>
-				<paper-tab role="tab" inline flex center-center horizontal layout class>
-					Import
-				</paper-tab>
-
-			</paper-tabs>
-
-			<div class="selectedDiv">
-
-				<cbn-sabloane-setari content="{{dataSablon}}" id="setariSablon"
-									 namespace="{{namespace}}"
-									 editorSablon="{{$.aceEditor}}" kinds="{{kinds}}"></cbn-sabloane-setari>
-			</div>
-			<div class="selectedDiv" flex style="position: relative">
-				<cbn-ace-editor class="aceElement" id="aceEditor" mode="xml" theme="crimson_editor" fontSize="16px"
-								value="{{dataSablon.contentSablon}}" fit></cbn-ace-editor>
-			</div>
-			<div class="selectedDiv" flex style="position: relative" layout vertical>
-				<textarea style="width:100%" flex value="{{_exportCode(dataSablon._hash, dataSablon.numeSablon, dataSablon.entitate, dataSablon.multiplicareProcese, dataSablon.aplicare)}}"></textarea>
-			</div>
-		</div>
+		<style include="cbn-grid-shared-style"></style>
+		<paper-tabs selected="{{tab}}" >
+			<paper-tab>Configurare</paper-tab>
+			<paper-tab>Cod sablon</paper-tab>
+			<paper-tab>Import</paper-tab>
+			<paper-tab>Nume Fisier</paper-tab>
+		</paper-tabs>
+		<iron-pages selected="{{tab}}">
+			<section>
+				<form is="cbn-form" action="/salveaza/SalveazaSablon" handleAs="json" model="{{model}}">
+					<cbn-dynamic-form config="{{_configSablon}}"
+									  class="horizontal layout wrap form"
+									  target="light"></cbn-dynamic-form>
+					<paper-button id="saveSablon" class="save" on-tap="submitFormSablon">
+						<iron-icon icon="check" hidden$="[[loading]]"></iron-icon>
+						<paper-spinner active="[[loading]]" hidden$="[[!loading]]" class="loading-spinner" style="vertical-align: middle;height:24px;width:24px;"></paper-spinner>
+						<span>Salveaza</span>
+					</paper-button>
+					<paper-tooltip for="saveSablon" position="right" class="tooltip" animation-delay="0">Salveaza (CTRL+S)</paper-tooltip>
+				</form>
+			</section>
+			<section style="position:relative">
+				<cbn-ace-editor  mode="xml" theme="crimson_editor" font-size="1em" value="{{dataSablon.contentSablon}}"></cbn-ace-editor>
+			</section>
+			<section>
+				&lt;import data-adma-import="<span>{{model._hash}}</span>"&gt;<br />
+					<span>{{model.numeSablon}}</span><br />
+					<span>{{model.entitate}}</span><br />
+					Multiplicare procese: <span>{{model.multiplicareProcese}}</span><br />
+					Aplică:  <span>{{model.aplicare}}</span><br />
+				&lt;/import&gt;
+			</section>
+			<section style="position:relative">
+				<cbn-ace-editor></cbn-ace-editor>
+			</section>
+		</iron-pages>
 	</template>
-	<script>
-		(function () {
-			Polymer('cbn-sabloane', {
-				tabForm:0,
-				tabFormChanged: function(){
-					if(this.tabForm===1){
-						this.$.aceEditor.focus();
-						this.dataSablon.contentSablon=this.$.aceEditor.editorValue;
-						this.$.aceEditor.valueChanged();
-					}
-				},
-				dataSablonChanged: function(){
-					this.tabForm = 0;
-				},
-				_exportCode: function(){
-					return "<import data-adma-import=\""+this.dataSablon._hash+"\">\n" +
-						"\t"+this.dataSablon.numeSablon+"\n" +
-						"\t"+this.dataSablon.entitate+"\n" +
-						"\tMultiplicare procese: "+this.dataSablon.multiplicareProcese+"\n" +
-						"\tAplică: "+this.dataSablon.aplicare+"\n" +
-						"</import>";
-					
-				}
-			});
-				
-		})();
-	</script>
+</dom-module>
 
-</polymer-element>
+<script>
+	(function () {
+		Polymer({
+
+			is: 'cbn-sabloane',
+			behaviors: [],
+			properties: {
+				/**
+				 * The list of kinds to appear in the Entitate Dropdown
+				 */
+				kinds: {
+					type: Array,
+					value: function () {
+						return [];
+					},
+					notify: false,
+					readOnly: false,
+					reflectToAttribute: false
+				},
+				/**
+				 * The tab that is currently active
+				 */
+				tab: {
+					type: Number,
+					value: 0,
+					notify: true,
+					readOnly: false,
+					reflectToAttribute: false
+				},
+				/**
+				 * The form config needed for the dinamic form
+				 */
+				_configSablon: {
+					type: Object,
+					value: function () {
+						return {};
+					},
+					notify: false,
+					reflectToAttribute: false
+				},
+
+				/**
+				 * 
+				 */
+				model: {
+					type: Object,
+					value: function () {
+						return {
+							multiplicareProcese: "Nu",
+							aplicare: "Manual"
+						};
+					},
+					notify: true,
+					readOnly: false,
+					reflectToAttribute: false
+				},
+				/**
+				 * if you still have ajax in progress
+				 */
+				loading: {
+					type: Boolean,
+					value: false,
+					notify: true,
+					readOnly: false,
+					reflectToAttribute: false
+				}
+
+			},
+			observers: [],
+			ready: function () {
+				this._setConfigSablon();
+				this.reset();
+			},
+			reset: function () {
+				this.model = {
+					multiplicareProcese: "Nu",
+					aplicare: "Manual"
+				};
+			},
+			_setConfigSablon: function(){
+				this._configSablon = {
+					"elements": [
+						{
+							"label": "Nume Sablon",
+							"type": "text",
+							"element": "paper-input",
+							"name": "numeSablon",
+							"format": "",
+							"dbType": "string",
+							"defaultValue": "",
+							"info": "",
+							"search": false,
+							"className": "col-xs-12 col-sm-12 col-lg-12",
+							"validation": {
+								"required": true,
+								"number": {
+									"validate": false,
+									"type": ""
+								},
+								"unique": false,
+								"email": false,
+								"cnp": false,
+								"cif": false,
+								"minLength": "",
+								"maxLength": "",
+								"min": "",
+								"max": ""
+							},
+							"autoValidate": true,
+							"decorator": "cbn-input-decorator",
+							"floatingLabel": true
+						},
+						{
+							"type": "select",
+							"element": "cbn-paper-select",
+							"label": "Tip Generare",
+							"name": "tipGenerare",
+							"search": false,
+							"multiple": false,
+							"info": "",
+							"database": "",
+							"property": "",
+							"className": "col-xs-12 col-sm-12 col-lg-12",
+							"validation": {
+								"required": true,
+								"minLength": "",
+								"maxLength": ""
+							},
+							"preview": true,
+							"autoValidate": true,
+							itemValueProperty: "value",
+							"options": [
+								{label: "Word", value: "word"},
+								{label: "Excel (xls)", value: "excel"},
+								{label: "PDF", value: "pdf"},
+								{label: "XML", value: "xml"},
+								{label: "Img", value: "img"},
+								{label: "Email", value: "email"},
+								{label: "Formula", value: "formula"},
+								{label: "Dashboard", value: "dashboard"}
+							],
+							"decorator": "cbn-input-decorator",
+							"floatingLabel": true,
+							"alwaysShowChips": true
+						},
+						{
+							"type": "select",
+							"element": "cbn-paper-select",
+							"label": "Multiplicare Procese",
+							"name": "multiplicareProcese",
+							"search": false,
+							"multiple": false,
+							"info": "",
+							"database": "",
+							"property": "",
+							"className": "col-xs-12 col-sm-12 col-lg-12",
+							"validation": {
+								"required": true,
+								"minLength": "",
+								"maxLength": ""
+							},
+							"autoValidate": true,
+							"options": [
+								"Nu",
+								"Da"
+							],
+							"decorator": "cbn-input-decorator",
+							"floatingLabel": true,
+							"alwaysShowChips": true
+						},
+						{
+							"type": "select",
+							"element": "cbn-paper-select",
+							"label": "Entitate",
+							"name": "entitate",
+							"search": false,
+							"multiple": false,
+							"info": "",
+							"database": "",
+							"property": "",
+							"className": "col-xs-12 col-sm-12 col-lg-12",
+							"validation": {
+								"required": true,
+								"minLength": "",
+								"maxLength": ""
+							},
+							"preview": true,
+							"autoValidate": true,
+							itemValueProperty: "value",
+							"options": this.kinds,
+							"decorator": "cbn-input-decorator",
+							"floatingLabel": true,
+							"alwaysShowChips": true
+						},
+						{
+							"type": "select",
+							"element": "cbn-paper-select",
+							"label": "Aplica",
+							"name": "aplicare",
+							"search": false,
+							"multiple": false,
+							"info": "",
+							"database": "",
+							"property": "",
+							"className": "col-xs-12 col-sm-12 col-lg-12",
+							"validation": {
+								"required": true,
+								"minLength": "",
+								"maxLength": ""
+							},
+							"autoValidate": true,
+							"options": [
+								"Manual",
+								"Automat"
+							],
+							"decorator": "cbn-input-decorator",
+							"floatingLabel": true,
+							"alwaysShowChips": true
+						},
+						{
+							"type": "textarea",
+							"element": "paper-input",
+							"label": "Descriere",
+							"name": "description",
+							"search": false,
+							"multiple": false,
+							"className": "col-xs-12 col-sm-12 col-lg-12",
+							"validation": {
+								"required": false,
+								"minLength": "",
+								"maxLength": ""
+							},
+							"autoValidate": true,
+							"decorator": "cbn-input-decorator",
+							"floatingLabel": true,
+							"alwaysShowChips": true
+						}
+					]
+				};
+			}
+		})
+	})();
+</script>
