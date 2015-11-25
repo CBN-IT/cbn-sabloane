@@ -390,8 +390,11 @@
 				this.refreshNumeFisier = true;
 			},
 			saveSablon: function (event) {
-				//not to show the download html thing
-				event.detail.keyboardEvent.preventDefault();
+				/*not to show the download html thing when ctrl+s is pressed
+				 the button doesn't throw the keyboardEvent thing;*/
+				if (event.detail.keyboardEvent != null) {
+					event.detail.keyboardEvent.preventDefault();
+				}
 				this.model.contentSablon = this.$.contentSablon.editorValue;
 				this.model.numeFisier = this.$.numeFisier.editorValue;
 				if (!this.$.formSablon.validate()) {
