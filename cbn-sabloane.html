@@ -11,11 +11,15 @@
 
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="../iron-behaviors/iron-control-state.html">
+
 
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-input/paper-textarea.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../paper-spinner/paper-spinner.html">
 
 
 
@@ -50,27 +54,31 @@
 				@apply(--layout-vertical);
 				@apply(--layout-flex);
 			}
-			section{
+			section {
 				@apply(--layout-flex);
 			}
 			cbn-ace-editor {
-				margin: 0 0 0 14px;
+				margin: 0
+			}
+			:host {
+				outline:none;
 			}
 		</style>
 		<style include="cbn-grid-shared-style"></style>
+		<iron-a11y-keys keys="ctrl+s" target="[[_target]]" on-keys-pressed="saveSablon" stop-keyboard-event-propagation="true"></iron-a11y-keys>
 		<paper-tabs selected="{{tab}}" >
 			<paper-tab>Configurare</paper-tab>
 			<paper-tab>Cod sablon</paper-tab>
-			<paper-tab>Import</paper-tab>
 			<paper-tab>Nume Fisier</paper-tab>
+			<paper-tab>Import</paper-tab>
 		</paper-tabs>
 		<iron-pages selected="{{tab}}">
 			<section>
-				<form is="cbn-form" action="/salveaza/SalveazaSablon" handleAs="json" model="{{model}}">
+				<form is="cbn-form" action="/salveaza/SalveazaSablon" handleAs="json" model="{{model}}" id="formSablon" method="post" on-cbn-form-response="sablonSaved">
 					<cbn-dynamic-form config="{{_configSablon}}"
 									  class="horizontal layout wrap form"
 									  target="light"></cbn-dynamic-form>
-					<paper-button id="saveSablon" class="save" on-tap="submitFormSablon">
+					<paper-button id="saveSablon" class="save" on-tap="saveSablon">
 						<iron-icon icon="check" hidden$="[[loading]]"></iron-icon>
 						<paper-spinner active="[[loading]]" hidden$="[[!loading]]" class="loading-spinner" style="vertical-align: middle;height:24px;width:24px;"></paper-spinner>
 						<span>Salveaza</span>
@@ -79,7 +87,10 @@
 				</form>
 			</section>
 			<section style="position:relative">
-				<cbn-ace-editor  mode="xml" theme="crimson_editor" font-size="1em" value="{{dataSablon.contentSablon}}"></cbn-ace-editor>
+				<cbn-ace-editor id="contentSablon"  mode="xml" theme="crimson_editor" font-size="1em" value="{{model.contentSablon}}"></cbn-ace-editor>
+			</section>
+			<section style="position:relative">
+				<cbn-ace-editor id="numeFisier"  mode="xml" theme="crimson_editor" font-size="1em" value="{{model.numeFisier}}"></cbn-ace-editor>
 			</section>
 			<section>
 				&lt;import data-adma-import="<span>{{model._hash}}</span>"&gt;<br />
@@ -87,10 +98,8 @@
 					<span>{{model.entitate}}</span><br />
 					Multiplicare procese: <span>{{model.multiplicareProcese}}</span><br />
 					Aplică:  <span>{{model.aplicare}}</span><br />
+					<span>{{model.description}}</span><br />
 				&lt;/import&gt;
-			</section>
-			<section style="position:relative">
-				<cbn-ace-editor></cbn-ace-editor>
 			</section>
 		</iron-pages>
 	</template>
@@ -101,7 +110,7 @@
 		Polymer({
 
 			is: 'cbn-sabloane',
-			behaviors: [],
+			behaviors: [Polymer.IronControlState],
 			properties: {
 				/**
 				 * The list of kinds to appear in the Entitate Dropdown
@@ -123,7 +132,8 @@
 					value: 0,
 					notify: true,
 					readOnly: false,
-					reflectToAttribute: false
+					reflectToAttribute: false,
+					observer:"_tabChanged"
 				},
 				/**
 				 * The form config needed for the dinamic form
@@ -150,7 +160,8 @@
 					},
 					notify: true,
 					readOnly: false,
-					reflectToAttribute: false
+					reflectToAttribute: false,
+					observer: "_modelChanged"
 				},
 				/**
 				 * if you still have ajax in progress
@@ -161,8 +172,24 @@
 					notify: true,
 					readOnly: false,
 					reflectToAttribute: false
+				},
+
+				/**
+				 * 
+				 */
+				_target: {
+					type: Object,
+					value: function () {
+						return this;
+					},
+					notify: false,
+					readOnly: false,
+					reflectToAttribute: false
 				}
 
+			},
+			hostAttributes:{
+				tabindex: "1"
 			},
 			observers: [],
 			ready: function () {
@@ -335,6 +362,46 @@
 						}
 					]
 				};
+			},
+			_tabChanged: function(){
+				if (this.tab === 1) {
+					/*
+					this is here because if the editor is not visible it doesn't update the content of the editor until you click inside it
+					we want to update only on model changed, cause that is the only time it comes from outside. 
+					when you change between tabs, it was resetting the cursor position
+					*/
+					if (this.refreshContentSablon) {
+						this.$.contentSablon._valueChanged();
+						this.refreshContentSablon = false;
+					}
+					this.$.contentSablon.focus();
+				} 
+				if (this.tab === 2) {
+					if (this.refreshNumeFisier) {
+						this.$.numeFisier._valueChanged();
+						this.refreshNumeFisier = false;
+					}
+					this.$.numeFisier.focus();
+				}
+			},
+			_modelChanged: function () {
+				this.tab = 0;
+				this.refreshContentSablon = true;
+				this.refreshNumeFisier = true;
+			},
+			saveSablon: function (event) {
+				//not to show the download html thing
+				event.detail.keyboardEvent.preventDefault();
+				this.model.contentSablon = this.$.contentSablon.editorValue;
+				this.model.numeFisier = this.$.numeFisier.editorValue;
+				if (!this.$.formSablon.validate()) {
+					this.tab = 0;
+				}
+				this.$.formSablon.submit();
+			},
+			sablonSaved: function(event){
+				/*after save we set the hash back into the model so the second save does an update instead of a new save*/
+				this.model._hash = event.detail.response._hash;
 			}
 		})
 	})();

@@ -27,7 +27,28 @@
 	</style>
 </head>
 <body >
-	<cbn-sabloane id="editorSablon"  kinds='["Factura","Proforma","Chitanta","Produs","Client","Firma","Cont","Nedefinit"]'></cbn-sabloane>
-
+<template is="dom-bind" id="demo">
+	<cbn-sabloane id="editorSablon"  kinds='["Factura","Proforma","Chitanta","Produs","Client","Firma","Cont","Nedefinit"]' tabindex="1"></cbn-sabloane>
+	<paper-button on-tap="reset">Reset</paper-button>
+	<paper-button on-tap="setSomething">setSomething</paper-button>
+	<script>
+		demo.reset=function(){
+			this.$.editorSablon.reset();
+		};
+		demo.setSomething=function(){
+			this.$.editorSablon.model={
+				contentSablon: "tra la la la",
+				numeFisier: "nume fisier tra la la la",
+				numeSablon: "test sablon",
+				tipGenerare:"word",
+				multiplicareProcese:"Nu",
+				entitate:"Factura",
+				aplicare:"Manual",
+				description:" descriere pentru sablon"
+			}
+		}
+	</script>
+</template>
+	
 </body>
 </html>
