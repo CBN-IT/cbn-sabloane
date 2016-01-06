@@ -19,7 +19,7 @@
 <link rel="import" href="../paper-input/paper-textarea.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../paper-tooltip/paper-tooltip.html">
-<link rel="import" href="../paper-spinner/paper-spinner.html">
+<link rel="import" href="../paper-spinner/paper-spinner-lite.html">
 
 
 
@@ -63,6 +63,30 @@
 			:host {
 				outline:none;
 			}
+			.save{
+				background: #4285f4;
+				color: #fff;
+				min-width: 0;
+				padding: 0 15px 0 10px;
+				margin: 0;
+				height: 30px;
+				overflow: hidden;
+			}
+			.save > .save-icon {
+				width: 24px;
+				height: 24px;
+				margin: 3px 0;
+			}
+			.save > .save-spinner{
+				--paper-spinner-layer-1-color: white;
+				--paper-spinner-layer-2-color: white;
+				--paper-spinner-layer-3-color: white;
+				--paper-spinner-layer-4-color: white;
+				--paper-spinner-color: white;
+				height: 20px;
+				width: 20px;
+				margin: 5px 2px;
+			}
 		</style>
 		<style include="cbn-grid-shared-style"></style>
 		<iron-a11y-keys keys="ctrl+s" target="[[_target]]" on-keys-pressed="saveSablon" stop-keyboard-event-propagation="true"></iron-a11y-keys>
@@ -75,13 +99,11 @@
 		<iron-pages selected="{{tab}}">
 			<section>
 				<form is="cbn-form" action="/salveaza/SalveazaSablon" handleAs="json" model="{{model}}" id="formSablon" method="post" on-cbn-form-response="sablonSaved">
-					<cbn-dynamic-form config="{{_configSablon}}"
-									  class="horizontal layout wrap form"
-									  target="light"></cbn-dynamic-form>
+					<cbn-dynamic-form config="{{_configSablon}}"></cbn-dynamic-form>
 					<paper-button id="saveSablon" class="save" on-tap="saveSablon">
-						<iron-icon icon="check" hidden$="[[loading]]"></iron-icon>
-						<paper-spinner active="[[loading]]" hidden$="[[!loading]]" class="loading-spinner" style="vertical-align: middle;height:24px;width:24px;"></paper-spinner>
-						<span>Salveaza</span>
+						<iron-icon class="save-icon" icon="check" hidden$="[[loading]]"></iron-icon>
+						<paper-spinner-lite class="save-spinner" active="[[loading]]" hidden$="[[!loading]]"></paper-spinner-lite>
+						<span class="save-text">Salveaza</span>
 					</paper-button>
 					<paper-tooltip for="saveSablon" position="right" class="tooltip" animation-delay="0">Salveaza (CTRL+S)</paper-tooltip>
 				</form>
