@@ -1,0 +1,93 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-button/paper-button.html">
+
+<link rel="import" href="../cbn-table/cbn-data-table.html">
+<link rel="import" href="../cbn-misc/cbn-misc.html">
+<link rel="import" href="../cbn-tooltip/cbn-tooltip.html">
+<link rel="import" href="../cbn-grid/cbn-app-styles.html">
+<link rel="import" href="../cbn-main-page/cbn-page-behavior.html">
+
+<script src="coloane_sablon.js"></script>
+
+<dom-module id="cbn-client">
+	<template>
+		<style>
+			:host {
+				@apply(--layout-vertical);
+				@apply(--layout-flex);
+			}
+		</style>
+		<style include="cbn-app-styles"></style>
+
+		<iron-ajax id="getAjax" url="/get/GetEntitati" handle-as="json" last-response="{{listEntities}}" params='{{_setParams("namespace", namespace, "type", "client")}}'></iron-ajax>
+		<cbn-data-table class="table flex" style="margin-right: 0;"
+						items="{{listEntities}}"
+						columns="{{columnsSablon}}"
+						params='{{_setParams("namespace",namespace)}}'
+						on-cbn-table-row-dblclicked="editFromTable"
+						on-delete-row="onDelete">
+			<paper-button class="before save" style="margin: 0 10px;color:white;background-color: #B90404" on-click="formularNou">
+				<iron-icon icon="add-circle"></iron-icon>
+				Adauga
+			</paper-button>
+			<template class="buttons">
+				<span>
+					<paper-icon-button icon="icons:delete" on-tap="_throwEvent" data-event="delete-row" style="color:rgb(213, 0, 0);"></paper-icon-button>
+					<cbn-tooltip position="left">Stergere client</cbn-tooltip>
+				</span>
+			</template>
+		</cbn-data-table>
+	</template>
+</dom-module>
+
+<script>
+	(function () {
+		Polymer({
+
+			is: 'cbn-client',
+			behaviors: [
+				Cbn.facturi.pageBehavior,
+				Cbn.columns.sablon
+			],
+			properties: {
+				dataRoute:{
+					type: String,
+					reflectToAttribute: true,
+					value: "/client"
+				},
+				type:{
+					type:String,
+					value:"client"
+				}
+			},
+			listeners: {},
+			ready: function () {
+				page('/admin/' + this.type, function (cx, next) {
+					this.$.getAjax.generateRequest();
+					this.listeaza.apply(this, [cx, next]);
+				}.bind(this));
+				this.listen(document, "cbn-require", "getRequirement");
+			},
+			listeaza: function(cx, next) {
+				app.route = this.dataRoute;
+				app.routeSection = this.dataRoute;
+				cx.handled = true;
+				next();
+			},
+			hasRequirement: function(){
+				return this.get("listEntities") instanceof Array;
+			},
+			onDelete: function (event) {
+				this.opendDialogDelete(
+					event.detail.item._hash, 
+					"Esti sigur ca doresti sa stergi sablonul " + event.detail.item["numeSablon"] + " ?");
+			}
+		})
+	})();
+</script>
