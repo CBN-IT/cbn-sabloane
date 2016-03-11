@@ -59,16 +59,16 @@
 				dataRoute:{
 					type: String,
 					reflectToAttribute: true,
-					value: "/admin/sablon"
+					value: "/sablon"
 				},
 				type:{
 					type:String,
-					value:"admin/sablon"
+					value:"sablon"
 				}
 			},
 			listeners: {},
 			ready: function () {
-				page('/admin/' + this.type, function (cx, next) {
+				page('/' + this.type, function (cx, next) {
 					this.$.getAjax.generateRequest();
 					this.listeaza.apply(this, [cx, next]);
 				}.bind(this));
