@@ -47,7 +47,7 @@ Cbn.columns.sablon={
 					renderAs: 'template',
 					headStyle: "width: 100px",
 					caption: 'Buttons',
-					template: '#buttons'
+					template: '.buttons'
 				}
 			]
 		}
