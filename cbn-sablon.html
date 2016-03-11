@@ -25,7 +25,7 @@
 		</style>
 		<style include="cbn-app-styles"></style>
 
-		<iron-ajax id="getAjax" url="/get/GetEntitati" handle-as="json" last-response="{{listEntities}}" params='{{_setParams("namespace", namespace, "type", "client")}}'></iron-ajax>
+		<iron-ajax id="getAjax" url="/get/GetSabloane" handle-as="json" last-response="{{listEntities}}" params='{{_setParams("namespace", namespace)}}'></iron-ajax>
 		<cbn-data-table class="table flex" style="margin-right: 0;"
 						items="{{listEntities}}"
 						columns="{{columnsSablon}}"
