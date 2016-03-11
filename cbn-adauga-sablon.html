@@ -89,18 +89,18 @@
 				</form>
 			</section>
 			<section style="position:relative">
-				<cbn-ace-editor id="contentSablon"  mode="xml" theme="crimson_editor" font-size="1em" value="{{model.contentSablon}}"></cbn-ace-editor>
+				<cbn-ace-editor id="contentSablon"  mode="xml" theme="crimson_editor" font-size="1em" value="{{currentModel.contentSablon}}"></cbn-ace-editor>
 			</section>
 			<section style="position:relative">
-				<cbn-ace-editor id="numeFisier"  mode="xml" theme="crimson_editor" font-size="1em" value="{{model.numeFisier}}"></cbn-ace-editor>
+				<cbn-ace-editor id="numeFisier"  mode="xml" theme="crimson_editor" font-size="1em" value="{{currentModel.numeFisier}}"></cbn-ace-editor>
 			</section>
 			<section>
-				&lt;import data-adma-import="<span>{{model._hash}}</span>"&gt;<br />
-					<span>{{model.numeSablon}}</span><br />
-					<span>{{model.entitate}}</span><br />
-					Multiplicare procese: <span>{{model.multiplicareProcese}}</span><br />
-					Aplică:  <span>{{model.aplicare}}</span><br />
-					<span>{{model.description}}</span><br />
+				&lt;import data-adma-import="<span>{{currentModel._hash}}</span>"&gt;<br />
+					<span>{{currentModel.numeSablon}}</span><br />
+					<span>{{currentModel.entitate}}</span><br />
+					Multiplicare procese: <span>{{currentModel.multiplicareProcese}}</span><br />
+					Aplică:  <span>{{currentModel.aplicare}}</span><br />
+					<span>{{currentModel.description}}</span><br />
 				&lt;/import&gt;
 			</section>
 		</iron-pages>
