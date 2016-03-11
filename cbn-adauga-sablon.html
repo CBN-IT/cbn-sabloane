@@ -19,7 +19,15 @@
 		<style>
 			:host {
 				@apply(--layout-vertical);
+				background-color: white;
 			}
+			/*<editor-fold desc="paper-tabs" defaultstate="collapsed">*/
+			:host {
+				--paper-tabs-selection-bar-color: var(--google-blue-500);
+				--paper-tab-ink: var(--google-blue-500);
+			}
+
+			/*</editor-fold>*/
 			iron-pages{
 				@apply(--layout-vertical);
 				@apply(--layout-flex);
@@ -72,13 +80,12 @@
 			<section>
 				<form is="cbn-form" action="/salveaza/SalveazaSablon" handleAs="json" model="{{model}}" params="{{params}}" id="formSablon" method="post" on-cbn-form-response="sablonSaved">
 					<cbn-dynamic-form config="{{_configSablon}}"></cbn-dynamic-form>
-					<paper-button class="save" on-tap="saveSablon">
+					<paper-button class="save" on-tap="saveSablon" style="margin: 10px 0 0 10px;">
 						<iron-icon class="save-icon" icon="check" hidden$="[[loading]]"></iron-icon>
 						<paper-spinner-lite class="save-spinner" active="[[loading]]" hidden$="[[!loading]]"></paper-spinner-lite>
 						<span class="save-text">Salveaza</span>
 						<cbn-tooltip position="right" class="tooltip" animation-delay="0">Salveaza (CTRL+S)</cbn-tooltip>
 					</paper-button>
-					
 				</form>
 			</section>
 			<section style="position:relative">
