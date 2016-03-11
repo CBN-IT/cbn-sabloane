@@ -78,7 +78,7 @@
 		</paper-tabs>
 		<iron-pages selected="{{tab}}">
 			<section>
-				<form is="cbn-form" action="/salveaza/SalveazaSablon" handleAs="json" model="{{model}}" params="{{params}}" id="formSablon" method="post" on-cbn-form-response="sablonSaved">
+				<form is="cbn-form" action="/salveaza/SalveazaSablon" handleAs="json" model="{{currentModel}}" params='{{_setParams("namespace", namespace)}}' id="formSablon" method="post" on-cbn-form-response="sablonSaved">
 					<cbn-dynamic-form config="{{_configSablon}}"></cbn-dynamic-form>
 					<paper-button class="save" on-tap="saveSablon" style="margin: 10px 0 0 10px;">
 						<iron-icon class="save-icon" icon="check" hidden$="[[loading]]"></iron-icon>
@@ -167,7 +167,7 @@
 					reflectToAttribute: false
 				},
 
-				model: {
+				currentModel: {
 					type: Object,
 					value: function () {
 						return {
@@ -224,7 +224,7 @@
 			},
 			editeaza: function(cx, next){
 				var hash = cx.params.hash;
-				var model = {};
+				var currentModel = {};
 				this.listEntities.forEach(function(itm){
 					if(itm._hash === hash){
 						model = itm;
@@ -237,7 +237,7 @@
 				next();
 			},
 			reset: function () {
-				this.model = {
+				this.currentModel = {
 					multiplicareProcese: "Nu",
 					aplicare: "Manual"
 				};
@@ -274,8 +274,8 @@
 				if (event.detail.keyboardEvent != null) {
 					event.detail.keyboardEvent.preventDefault();
 				}
-				this.model.contentSablon = this.$.contentSablon.editorValue;
-				this.model.numeFisier = this.$.numeFisier.editorValue;
+				this.currentModel.contentSablon = this.$.contentSablon.editorValue;
+				this.currentModel.numeFisier = this.$.numeFisier.editorValue;
 				if (!this.$.formSablon.validate()) {
 					this.tab = 0;
 				}
@@ -283,7 +283,7 @@
 			},
 			sablonSaved: function(event){
 				/*after save we set the hash back into the model so the second save does an update instead of a new save*/
-				this.model._hash = event.detail.response._hash;
+				this.currentModel._hash = event.detail.response._hash;
 			},
 			_setConfigSablon: function(){
 				this._configSablon = {
