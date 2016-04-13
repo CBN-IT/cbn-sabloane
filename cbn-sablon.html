@@ -11,6 +11,7 @@
 <link rel="import" href="../cbn-misc/cbn-misc.html">
 <link rel="import" href="../cbn-tooltip/cbn-tooltip.html">
 <link rel="import" href="../cbn-grid/cbn-app-styles.html">
+<link rel="import" href="../cbn-grid/cbn-btn-styles.html">
 <link rel="import" href="../cbn-main-page/cbn-page-behavior.html">
 
 <script src="coloane_sablon.js"></script>
@@ -32,9 +33,9 @@
 						params='{{_setParams("namespace",namespace)}}'
 						on-cbn-table-row-dblclicked="editFromTable"
 						on-delete-row="onDelete">
-			<paper-button class="before save" style="margin: 0 10px;color:white;background-color: #B90404" on-click="formularNou">
-				<iron-icon icon="add-circle"></iron-icon>
-				Adauga
+			<paper-button class="icon-btn blue before margin-left-right" on-click="formularNou">
+				<iron-icon icon="add-circle" class="icon-btn-icon"></iron-icon>
+				<span class="icon-btn-text">Adauga</span>
 			</paper-button>
 			<template class="buttons">
 				<span>
