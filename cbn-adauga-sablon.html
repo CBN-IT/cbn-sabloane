@@ -78,7 +78,7 @@
 		</paper-tabs>
 		<iron-pages selected="{{tab}}">
 			<section>
-				<form is="cbn-form" action="/salveaza/SalveazaSablon" handleAs="json" model="{{currentModel}}" params='{{_setParams("namespace", namespace)}}' id="formSablon" method="post" on-cbn-form-response="sablonSaved">
+				<form is="cbn-form" action="/salveaza/SalveazaSablon" handleAs="json" model="{{currentModel}}" params='{{params}}' id="formSablon" method="post" on-cbn-form-response="sablonSaved">
 					<cbn-dynamic-form config="{{_configSablon}}"></cbn-dynamic-form>
 					<paper-button class="save" on-tap="saveSablon" style="margin: 10px 0 0 10px;">
 						<iron-icon class="save-icon" icon="check" hidden$="[[loading]]"></iron-icon>
