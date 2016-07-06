@@ -32,6 +32,11 @@ Cbn.columns.sablon={
 					caption: 'Tip'
 				},
 				{
+					name: 'tipClient',
+					renderAs: 'text',
+					caption: 'Tip client'
+				},
+				{
 					name: 'multiplicareProcese',
 					renderAs: 'text',
 					caption: 'Multiplicare'
