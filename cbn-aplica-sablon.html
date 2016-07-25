@@ -1,0 +1,93 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../cbn-grid/cbn-app-styles.html">
+<link rel="import" href="../cbn-grid/cbn-btn-styles.html">
+<link rel="import" href="../cbn-form/cbn-form.html">
+<link rel="import" href="../cbn-form/cbn-dynamic-form.html">
+<link rel="import" href="../cbn-form/elements/styles.html">
+<link rel="import" href="../cbn-select/cbn-paper-select.html">
+<link rel="import" href="../cbn-datepicker/cbn-paper-date-range.html">
+<link rel="import" href="../cbn-datepicker/cbn-paper-datepicker.html">
+<link rel="import" href="../paper-input/paper-input.html">
+
+<link rel="import" href="../cbn-main-page/cbn-page-behavior.html">
+
+
+<dom-module id="cbn-aplica-sablon">
+	<template>
+		<style include="cbn-app-styles"></style>
+		<style include="cbn-form-shared-style"></style>
+		<paper-dialog id="dialog" style="width:800px;text-align:left;" entry-animation="scale-up-animation" exit-animation="fade-out-animation" modal>
+			<div class="header-dialog" >Detalii aplica sablon</div>
+				<form is="cbn-form" id="form" method="post" style="overflow-y: auto;"
+					  model="{{currentModel}}" class="form-container" serialization-options='{"mode":"deep"}'>
+					<cbn-dynamic-form config="{{sablon.contentParametri}}"></cbn-dynamic-form>
+				</form>
+			<div class="buttons footer-dialog">
+				<paper-button dialog-dismiss class="icon-btn red before margin-left-right">
+					<iron-icon icon="close" class="icon-btn-icon"></iron-icon>
+					<span class="icon-btn-text">Anuleaza</span>
+				</paper-button>
+				<paper-button class="icon-btn green before margin-left-right" on-tap="aplicaSablon">
+					<iron-icon icon="check" class="icon-btn-icon"></iron-icon>
+					<span class="icon-btn-text">Aplica sablon</span>
+				</paper-button>
+			</div>
+		</paper-dialog>
+	</template>
+</dom-module>
+
+<script>
+	(function () {
+		Polymer({
+
+			is: 'cbn-aplica-sablon',
+			behaviors: [
+				Cbn.facturi.pageBehavior
+			],
+			properties: {
+				sablon: {
+					type: Object,
+					value: {}
+				},
+				currentModel: {
+					type: Object,
+					value: {}
+				},
+				namespace: {
+					type: String
+				}
+			},
+			attached: function () {
+				this.listen(document, "cbn-aplica-sablon", "openAplicaSablon");
+
+			},
+			detached: function () {
+				this.unlisten(document, "cbn-aplica-sablon", "openAplicaSablon");
+			},
+			ready: function () {
+				
+			},
+			openAplicaSablon: function(event){
+				var sablon = JSON.parse(JSON.stringify(event.detail));
+				sablon.contentParametri = JSON.parse(sablon.contentParametri);
+				this.sablon = sablon;
+				if(this.sablon["parametri"] == "Da"){
+					this.$.dialog.open();
+				} else {
+					this.generareRaport(this.sablon["_hash"], undefined, false, this.currentModel);
+				}
+			},
+			aplicaSablon: function(){
+				if(this.$.form.validate()){
+					this.generareRaport(this.sablon["_hash"], undefined, false, this.currentModel);
+					this.$.dialog.close();
+				} else{
+					this.message("Completati parametrii formularului","error");
+				}
+			}
+		})
+	})();
+</script>

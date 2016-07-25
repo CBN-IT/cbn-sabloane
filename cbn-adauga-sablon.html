@@ -74,6 +74,7 @@
 			<paper-tab>Configurare</paper-tab>
 			<paper-tab>Cod sablon</paper-tab>
 			<paper-tab>Nume Fisier</paper-tab>
+			<paper-tab>Parametri</paper-tab>
 			<paper-tab>Import</paper-tab>
 		</paper-tabs>
 		<iron-pages selected="{{tab}}">
@@ -93,6 +94,9 @@
 			</section>
 			<section style="position:relative">
 				<cbn-ace-editor id="numeFisier"  mode="xml" theme="crimson_editor" font-size="1em" value="{{currentModel.numeFisier}}"></cbn-ace-editor>
+			</section>
+			<section style="position:relative">
+				<cbn-ace-editor id="parametri"  mode="json" theme="crimson_editor" font-size="1em" value="{{currentModel.parametri}}"></cbn-ace-editor>
 			</section>
 			<section>
 				&lt;import data-adma-import="<span>{{currentModel._hash}}</span>"&gt;<br />
@@ -276,6 +280,7 @@
 				}
 				this.currentModel.contentSablon = this.$.contentSablon.editorValue;
 				this.currentModel.numeFisier = this.$.numeFisier.editorValue;
+				this.currentModel.contentParametri= this.$.parametri.editorValue;
 				if (!this.$.formSablon.validate()) {
 					this.tab = 0;
 				}
@@ -386,6 +391,7 @@
 							"name": "multiplicareProcese",
 							"search": false,
 							"multiple": false,
+							"defaultValue":  "Nu",
 							"info": "",
 							"database": "",
 							"property": "",
@@ -422,7 +428,7 @@
 							},
 							"preview": true,
 							"autoValidate": true,
-							itemValueProperty: "value",
+							"itemValueProperty": "value",
 							"options": this.kinds,
 							"decorator": "cbn-input-decorator",
 							"floatingLabel": true,
@@ -445,9 +451,36 @@
 								"maxLength": ""
 							},
 							"autoValidate": true,
+							"defaultValue":  "Manual",
 							"options": [
 								"Manual",
 								"Automat"
+							],
+							"decorator": "cbn-input-decorator",
+							"floatingLabel": true,
+							"alwaysShowChips": true
+						},
+						{
+							"type": "select",
+							"element": "cbn-paper-select",
+							"label": "Folosire parametrii",
+							"name": "parametri",
+							"search": false,
+							"multiple": false,
+							"info": "",
+							"defaultValue": "Nu",
+							"database": "",
+							"property": "",
+							"className": "col-xs-12 col-sm-12 col-lg-12",
+							"validation": {
+								"required": true,
+								"minLength": "",
+								"maxLength": ""
+							},
+							"autoValidate": true,
+							"options": [
+								"Nu",
+								"Da"
 							],
 							"decorator": "cbn-input-decorator",
 							"floatingLabel": true,
