@@ -52,6 +52,10 @@
 					type: Object,
 					value: {}
 				},
+				keys: {
+					type: Array,
+					value: []
+				},
 				currentModel: {
 					type: Object,
 					value: {}
@@ -71,18 +75,19 @@
 				
 			},
 			openAplicaSablon: function(event){
-				var sablon = JSON.parse(JSON.stringify(event.detail));
-				sablon.contentParametri = JSON.parse(sablon.contentParametri);
+				var sablon = JSON.parse(JSON.stringify(event.detail.sablon));
 				this.sablon = sablon;
+				this.keys = event.detail.keys;
 				if(this.sablon["parametri"] == "Da"){
+					this.sablon = JSON.parse(sablon.contentParametri);
 					this.$.dialog.open();
 				} else {
-					this.generareRaport(this.sablon["_hash"], undefined, false, this.currentModel);
+					this.generareRaport(this.sablon["_hash"], this.keys, false, this.currentModel);
 				}
 			},
 			aplicaSablon: function(){
 				if(this.$.form.validate()){
-					this.generareRaport(this.sablon["_hash"], undefined, false, this.currentModel);
+					this.generareRaport(this.sablon["_hash"], this.keys, false, this.currentModel);
 					this.$.dialog.close();
 				} else{
 					this.message("Completati parametrii formularului","error");
