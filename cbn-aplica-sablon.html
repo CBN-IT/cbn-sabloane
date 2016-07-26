@@ -79,7 +79,7 @@
 				this.sablon = sablon;
 				this.keys = event.detail.keys;
 				if(this.sablon["parametri"] == "Da"){
-					this.sablon.contentParametri = JSON.parse(sablon.contentParametri);
+					this.set("sablon.contentParametri", JSON.parse(sablon.contentParametri));
 					this.$.dialog.open();
 				} else {
 					this.generareRaport(this.sablon["_hash"], this.keys, false, this.currentModel);
