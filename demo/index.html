@@ -4,6 +4,11 @@
 <head>
 	<link rel="import" href="../../polymer/polymer.html">
 	<link rel="import" href="../cbn-sabloane.html">
+
+	<link rel="import" href="../paper-button/paper-button.html">
+	
+	<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+	<link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
 	<style>
 		html, body {
 			margin: 0;
@@ -27,10 +32,21 @@
 	</style>
 </head>
 <body >
-<template is="dom-bind" id="demo">
-	<cbn-sabloane id="editorSablon"  kinds='["Factura","Proforma","Chitanta","Produs","Client","Firma","Cont","Nedefinit"]'></cbn-sabloane>
-	<paper-button on-tap="reset">Reset</paper-button>
-	<paper-button on-tap="setSomething">Set Something</paper-button>
+
+<div style="margin: 20px auto; width: 500px;">
+	<h1>Cbn-Google-Chart Demo</h1>
+
+	<form is="cbn-form" model>
+		<demo-snippet class="centered-demo" style="position:relative">
+			<template is="dom-bind" id="demo">
+				<cbn-sabloane id="editorSablon"  kinds='["Factura","Proforma","Chitanta","Produs","Client","Firma","Cont","Nedefinit"]'></cbn-sabloane>
+			</template>
+		</demo-snippet>
+		<paper-button on-tap="reset">Reset</paper-button>
+		<paper-button on-tap="setSomething">Set Something</paper-button>
+	</form>
+</div>
+
 	<script>
 		demo.reset=function(){
 			this.$.editorSablon.reset();
