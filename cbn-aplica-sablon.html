@@ -78,7 +78,7 @@
 				var sablon = JSON.parse(JSON.stringify(event.detail.sablon));
 				this.sablon = sablon;
 				this.currentModel = sablon["valueParametri"]||{};
-				this.keys = event.detail.keys;
+				this.keys = event.detail.keys || [];
 				if(this.sablon["parametri"] == "Da"){
 					this.set("sablon.contentParametri", JSON.parse(sablon.contentParametri));
 					this.$.dialog.open();
