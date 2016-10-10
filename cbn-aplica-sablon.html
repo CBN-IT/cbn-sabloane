@@ -3,7 +3,6 @@
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../cbn-grid/cbn-app-styles.html">
-<link rel="import" href="../cbn-grid/cbn-btn-styles.html">
 <link rel="import" href="../cbn-form/cbn-form.html">
 <link rel="import" href="../cbn-form/cbn-dynamic-form.html">
 <link rel="import" href="../cbn-form/elements/styles.html">
@@ -26,11 +25,11 @@
 					<cbn-dynamic-form config="{{sablon.contentParametri}}"></cbn-dynamic-form>
 				</form>
 			<div class="buttons footer-dialog">
-				<paper-button dialog-dismiss class="icon-btn red before margin-left-right">
+				<paper-button dialog-dismiss class="icon-btn background red before margin-left-right">
 					<iron-icon icon="close" class="icon-btn-icon"></iron-icon>
 					<span class="icon-btn-text">Anuleaza</span>
 				</paper-button>
-				<paper-button class="icon-btn green before margin-left-right" on-tap="aplicaSablon">
+				<paper-button class="icon-btn background green before margin-left-right" on-tap="aplicaSablon">
 					<iron-icon icon="check" class="icon-btn-icon"></iron-icon>
 					<span class="icon-btn-text">Aplica sablon</span>
 				</paper-button>
