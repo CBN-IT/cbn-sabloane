@@ -11,6 +11,7 @@
 <link rel="import" href="../cbn-misc/cbn-misc.html">
 <link rel="import" href="../cbn-tooltip/cbn-tooltip.html">
 <link rel="import" href="../cbn-grid/cbn-app-styles.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../cbn-main-page/cbn-page-behavior.html">
 
 <script src="coloane_sablon.js"></script>
@@ -24,7 +25,7 @@
 			}
 		</style>
 		<style include="cbn-app-styles"></style>
-
+		<style include="iron-flex"></style>
 		<iron-ajax id="getAjax" url="/get/GetSabloane" handle-as="json" last-response="{{listEntities}}" params='{{_setParams("namespace", namespace)}}'></iron-ajax>
 		<cbn-data-table class="table flex" style="margin-right: 0;"
 						items="{{listEntities}}"
