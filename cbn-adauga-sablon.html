@@ -14,15 +14,19 @@
 <link rel="import" href="../cbn-main-page/cbn-page-behavior.html">
 <link rel="import" href="../cbn-grid/cbn-btn-styles.html">
 <link rel="import" href="../cbn-main-page/import-form-elements.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 
 <dom-module id="cbn-adauga-sablon">
 	<template>
 		<style include="cbn-grid-styles"></style>
 		<style include="cbn-form-shared-style"></style>
+		<style include="iron-flex"></style>
 		<style include="cbn-btn-styles"></style>
 		<style>
 			:host {
 				@apply(--layout-vertical);
+				@apply(--layout-flex);
 				background-color: white;
 			}
 			/*<editor-fold desc="paper-tabs" defaultstate="collapsed">*/
