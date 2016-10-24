@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html>
+<head>
+	<link rel="import" href="../../polymer/polymer.html">
+	<link rel="import" href="../../polymer-reflection/polymer-reflection.html">
+	<link rel="import" href="../cbn-adauga-sablon.html">
+
+	<link rel="import" href="../../paper-button/paper-button.html">
+	
+	<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+	<link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+	<style>
+		html, body {
+			margin: 0;
+			-webkit-tap-highlight-color: transparent;
+			overflow: hidden;
+		}
+		body{
+			position:absolute;
+			left:0;
+			right:0;
+			top:0;
+			bottom:0;
+		}
+		cbn-sabloane{
+			height:500px;
+			width:100%;
+			max-width: 800px;
+			margin:0 auto;
+			display: inline-block;
+		}
+	</style>
+	<script>
+		function page(){
+
+		}
+	</script>
+</head>
+<body >
+
+<div style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction: column;">
+	<h1 style="margin: 5px 0;text-align: center;">Cbn-Google-Chart Demo</h1>
+
+	<cbn-adauga-sablon id="editorSablon"  kinds='["Factura","Proforma","Chitanta","Produs","Client","Firma","Cont","Nedefinit"]'></cbn-adauga-sablon>
+</div>
+
+	
+</body>
+</html>

@@ -22,6 +22,9 @@
     "cbn-main-page": "CBN-IT/cbn-main-page#master"
   },
   "devDependencies": {
-      "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.2.5"
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.2.5"
+  },
+  "resolutions": {
+    "cbn-form": "master"
   }
 }

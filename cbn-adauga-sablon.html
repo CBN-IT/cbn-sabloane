@@ -1,4 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer-reflection/polymer-reflection.html">
+<link rel="import" href="../cbn-main-page/import-form-elements.html">
 
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
@@ -41,7 +43,12 @@
 				@apply(--layout-flex);
 			}
 			section {
+				@apply(--layout-vertical);
 				@apply(--layout-flex);
+			}
+			form {
+				@apply(--layout-flex);
+				overflow-y: auto;
 			}
 			cbn-ace-editor {
 				margin: 0
@@ -62,15 +69,24 @@
 		</paper-tabs>
 		<iron-pages selected="{{tab}}">
 			<section>
-				<form is="cbn-form" action="/salveaza/SalveazaSablon" handleAs="json" model="{{currentModel}}" params='{{params}}' id="formSablon" method="post" on-cbn-form-response="sablonSaved">
+				<form is="cbn-form" 
+					  action="/salveaza/SalveazaSablon" 
+					  handleAs="json" 
+					  model="{{currentModel}}" 
+					  params='{{params}}' 
+					  id="formSablon" 
+					  method="post" 
+					  on-cbn-form-response="sablonSaved"
+					  on-value-changed="_valueChanged"
+					  cbn-dynamic-form-rendered="_hideFields">
 					<cbn-dynamic-form config="{{_configSablon}}"></cbn-dynamic-form>
 					<cbn-data-source id="dataSourceKinds" data="{{kinds}}"></cbn-data-source>
-					<paper-button class="icon-btn background blue margin-left" on-click="saveSablon">
-						<iron-icon icon="check" class="icon-btn-icon"></iron-icon>
-						<span class="icon-btn-text">Salveaza</span>
-						<cbn-tooltip position="right">Salveaza (CTRL+S)</cbn-tooltip>
-					</paper-button>
 				</form>
+				<paper-button style="margin-top: 5px !important;" class="icon-btn background blue margin-left" on-click="saveSablon">
+					<iron-icon icon="check" class="icon-btn-icon"></iron-icon>
+					<span class="icon-btn-text">Salveaza</span>
+					<cbn-tooltip position="right">Salveaza (CTRL+S)</cbn-tooltip>
+				</paper-button>
 			</section>
 			<section style="position:relative">
 				<cbn-ace-editor id="contentSablon"  mode="xml" theme="crimson_editor" font-size="1em" value="{{currentModel.contentSablon}}"></cbn-ace-editor>
@@ -177,7 +193,6 @@
 										"max": ""
 									},
 									"autoValidate": true,
-									"decorator": "cbn-input-decorator",
 									"floatingLabel": true
 								},
 								{
@@ -209,7 +224,6 @@
 										{label: "Formula", value: "formula"},
 										{label: "Dashboard", value: "dashboard"}
 									],
-									"decorator": "cbn-input-decorator",
 									"floatingLabel": true,
 									"alwaysShowChips": true
 								},
@@ -237,7 +251,6 @@
 										{label: "Arendas", value: "arendas"},
 										{label: "Primarie", value: "primarie"}
 									],
-									"decorator": "cbn-input-decorator",
 									"floatingLabel": true,
 									"alwaysShowChips": true
 								},
@@ -263,7 +276,6 @@
 										"Nu",
 										"Da"
 									],
-									"decorator": "cbn-input-decorator",
 									"floatingLabel": true,
 									"alwaysShowChips": true
 								},
@@ -287,7 +299,6 @@
 									"autoValidate": true,
 									"itemValueProperty": "value",
 									"dataSource": "#dataSourceKinds",
-									"decorator": "cbn-input-decorator",
 									"floatingLabel": true,
 									"alwaysShowChips": true
 								},
@@ -313,7 +324,6 @@
 										"Manual",
 										"Automat"
 									],
-									"decorator": "cbn-input-decorator",
 									"floatingLabel": true,
 									"alwaysShowChips": true
 								},
@@ -339,13 +349,11 @@
 										"Nu",
 										"Da"
 									],
-									"decorator": "cbn-input-decorator",
 									"floatingLabel": true,
 									"alwaysShowChips": true
 								},
 								{
 									"type": "textarea",
-									"element": "paper-input",
 									"label": "Descriere",
 									"name": "description",
 									"search": false,
@@ -357,7 +365,161 @@
 										"maxLength": ""
 									},
 									"autoValidate": true,
-									"decorator": "cbn-input-decorator",
+									"floatingLabel": true,
+									"alwaysShowChips": true
+								},
+								{
+									"label": "Subiect",
+									"type": "text",
+									"element": "paper-input",
+									"name": "subiectEmail",
+									"format": "",
+									"dbType": "string",
+									"defaultValue": "",
+									"info": "",
+									"search": false,
+									"className": "col-xs-12 col-sm-12 col-lg-12",
+									"validation": {
+										"required": true,
+										"number": {
+											"validate": false,
+											"type": ""
+										},
+										"unique": false,
+										"email": false,
+										"cnp": false,
+										"cif": false,
+										"minLength": "",
+										"maxLength": "",
+										"min": "",
+										"max": ""
+									},
+									"autoValidate": true,
+									"floatingLabel": true
+								},
+								{
+									"type": "select",
+									"label": "TO Email",
+									"name": "toEmail",
+									"multiple": true,
+									"freeText":true,
+									"className": "col-xs-12 col-sm-12 col-lg-12",
+									"validation": {
+										"required": true,
+										"minLength": "",
+										"maxLength": ""
+									},
+									"autoValidate": true,
+									"floatingLabel": true,
+									"alwaysShowChips": true
+								},
+								{
+									"type": "select",
+									"label": "CC Email",
+									"name": "ccEmail",
+									"multiple": true,
+									"freeText":true,
+									"className": "col-xs-12 col-sm-12 col-lg-12",
+									"validation": {
+										"required": true,
+										"minLength": "",
+										"maxLength": ""
+									},
+									"autoValidate": true,
+									"floatingLabel": true,
+									"alwaysShowChips": true
+								},
+								{
+									"type": "select",
+									"label": "BCC Email",
+									"name": "bccEmail",
+									"multiple": true,
+									"freeText":true,
+									"className": "col-xs-12 col-sm-12 col-lg-12",
+									"validation": {
+										"required": true,
+										"minLength": "",
+										"maxLength": ""
+									},
+									"autoValidate": true,
+									"floatingLabel": true,
+									"alwaysShowChips": true
+								},
+								{
+									"type": "select",
+									"element": "cbn-paper-select",
+									"label": "Zile",
+									"name": "zileTrimitere",
+									"multiple": true,
+									"info": "",
+									"database": "",
+									"property": "",
+									"className": "col-xs-12 col-sm-8 col-lg-8",
+									"validation": {
+										"required": true,
+										"minLength": "",
+										"maxLength": ""
+									},
+									"autoValidate": true,
+									"options": [
+										{label:"Luni",value:"1"},
+										{label:"Marti",value:"2"},
+										{label:"Miercuri",value:"3"},
+										{label:"Joi",value:"4"},
+										{label:"Vineri",value:"5"},
+										{label:"Sambata",value:"6"},
+										{label:"Duminica",value:"7"}
+									],
+									"floatingLabel": true,
+									"alwaysShowChips": true
+								},
+								{
+									"type": "text",
+									"element": "paper-input",
+									"label": "Ora",
+									"name": "oraTrimitere",
+									"search": false,
+									"multiple": false,
+									"className": "col-xs-12 col-sm-2 col-lg-2",
+									"validation": {
+										"required": false,
+										"minLength": "",
+										"maxLength": ""
+									},
+									"autoValidate": true,
+									"floatingLabel": true,
+									"alwaysShowChips": true
+								},
+								{
+									"type": "text",
+									"element": "paper-input",
+									"label": "Minut",
+									"name": "minutTrimitere",
+									"search": false,
+									"multiple": false,
+									"className": "col-xs-12 col-sm-2 col-lg-2",
+									"validation": {
+										"required": false,
+										"minLength": "",
+										"maxLength": ""
+									},
+									"autoValidate": true,
+									"floatingLabel": true,
+									"alwaysShowChips": true
+								},
+								{
+									"type": "select",
+									"label": "Atasamente",
+									"name": "atasamenteTrimitere",
+									"multiple": true,
+									"freeText":true,
+									"className": "col-xs-12 col-sm-12 col-lg-12",
+									"validation": {
+										"required": true,
+										"minLength": "",
+										"maxLength": ""
+									},
+									"autoValidate": true,
 									"floatingLabel": true,
 									"alwaysShowChips": true
 								}
@@ -482,6 +644,38 @@
 			sablonSaved: function(event){
 				/*after save we set the hash back into the model so the second save does an update instead of a new save*/
 				this.currentModel._hash = event.detail.response._hash;
+			},
+			_valueChanged: function (event) {
+				if (event.target.name == "tipGenerare") {
+					var form = this.$.formSablon;
+					if (event.detail.value == "email") {
+						this.showFormElement(form, "zileTrimitere");
+						this.showFormElement(form, "subiectEmail");
+						this.showFormElement(form, "toEmail");
+						this.showFormElement(form, "ccEmail");
+						this.showFormElement(form, "bccEmail");
+						this.showFormElement(form, "oraTrimitere");
+						this.showFormElement(form, "minutTrimitere");
+					} else {
+						this.hideFormElement(form, "zileTrimitere");
+						this.hideFormElement(form, "subiectEmail");
+						this.hideFormElement(form, "toEmail");
+						this.hideFormElement(form, "ccEmail");
+						this.hideFormElement(form, "bccEmail");
+						this.hideFormElement(form, "oraTrimitere");
+						this.hideFormElement(form, "minutTrimitere");
+					}
+				}
+			},
+			_hideFields:function(){
+				var form = this.$.formSablon;
+				this.hideFormElement(form, "zileTrimitere");
+				this.hideFormElement(form, "subiectEmail");
+				this.hideFormElement(form, "toEmail");
+				this.hideFormElement(form, "ccEmail");
+				this.hideFormElement(form, "bccEmail");
+				this.hideFormElement(form, "oraTrimitere");
+				this.hideFormElement(form, "minutTrimitere");
 			}
 		})
 	})();
