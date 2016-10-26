@@ -81,6 +81,7 @@
 					  cbn-dynamic-form-rendered="_hideFields">
 					<cbn-dynamic-form config="{{_configSablon}}"></cbn-dynamic-form>
 					<cbn-data-source id="dataSourceKinds" data="{{kinds}}"></cbn-data-source>
+					<cbn-data-source id="sabloaneList" data="{{listEntities}}"></cbn-data-source>
 				</form>
 				<paper-button style="margin-top: 5px !important;" class="icon-btn background blue margin-left" on-click="saveSablon">
 					<iron-icon icon="check" class="icon-btn-icon"></iron-icon>
@@ -513,7 +514,6 @@
 									"label": "Atasamente",
 									"name": "atasamenteTrimitere",
 									"multiple": true,
-									"freeText":true,
 									"className": "col-xs-12 col-sm-12 col-lg-12",
 									"validation": {
 										"required": false,
@@ -522,7 +522,10 @@
 									},
 									"autoValidate": true,
 									"floatingLabel": true,
-									"alwaysShowChips": true
+									"alwaysShowChips": true,
+									"dataSource":"#sabloaneList",
+									"itemLabelProperty":"numeSablon",
+									"itemValueProperty":"_hash"
 								}
 							]
 						};
