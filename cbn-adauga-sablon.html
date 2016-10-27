@@ -448,6 +448,22 @@
 								},
 								{
 									"type": "select",
+									"label": "Reply To Email",
+									"name": "replyToEmail",
+									"multiple": false,
+									"freeText":true,
+									"className": "col-xs-12 col-sm-12 col-lg-12",
+									"validation": {
+										"required": false,
+										"minLength": "",
+										"maxLength": ""
+									},
+									"autoValidate": true,
+									"floatingLabel": true,
+									"alwaysShowChips": true
+								},
+								{
+									"type": "select",
 									"element": "cbn-paper-select",
 									"label": "Zile",
 									"name": "zileTrimitere",
@@ -653,37 +669,33 @@
 				if (event.target.name == "tipGenerare") {
 					var form = this.$.formSablon;
 					if (event.detail.value == "email") {
-						this.showFormElement(form, "zileTrimitere");
-						this.showFormElement(form, "subiectEmail");
-						this.showFormElement(form, "toEmail");
-						this.showFormElement(form, "ccEmail");
-						this.showFormElement(form, "bccEmail");
-						this.showFormElement(form, "oraTrimitere");
-						this.showFormElement(form, "minutTrimitere");
-						this.showFormElement(form, "atasamenteTrimitere");
-						
+						this.showFormElement(form,
+							"zileTrimitere",
+							"subiectEmail",
+							"toEmail",
+							"ccEmail",
+							"bccEmail",
+							"oraTrimitere",
+							"minutTrimitere",
+							"atasamenteTrimitere",
+							"replyToEmail");
 					} else {
-						this.hideFormElement(form, "zileTrimitere");
-						this.hideFormElement(form, "subiectEmail");
-						this.hideFormElement(form, "toEmail");
-						this.hideFormElement(form, "ccEmail");
-						this.hideFormElement(form, "bccEmail");
-						this.hideFormElement(form, "oraTrimitere");
-						this.hideFormElement(form, "minutTrimitere");
-						this.hideFormElement(form, "atasamenteTrimitere");
+						this._hideFields();
 					}
 				}
 			},
-			_hideFields:function(){
+			_hideFields: function () {
 				var form = this.$.formSablon;
-				this.hideFormElement(form, "zileTrimitere");
-				this.hideFormElement(form, "subiectEmail");
-				this.hideFormElement(form, "toEmail");
-				this.hideFormElement(form, "ccEmail");
-				this.hideFormElement(form, "bccEmail");
-				this.hideFormElement(form, "oraTrimitere");
-				this.hideFormElement(form, "minutTrimitere");
-				this.hideFormElement(form, "atasamenteTrimitere");
+				this.hideFormElement(form,
+					"zileTrimitere",
+					"subiectEmail",
+					"toEmail",
+					"ccEmail",
+					"bccEmail",
+					"oraTrimitere",
+					"minutTrimitere",
+					"atasamenteTrimitere",
+					"replyToEmail");
 			}
 		})
 	})();
