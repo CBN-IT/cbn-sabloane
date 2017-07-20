@@ -99,13 +99,13 @@
 				<cbn-ace-editor id="parametri"  mode="json" theme="crimson_editor" font-size="1em" value="{{currentModel.contentParametri}}"></cbn-ace-editor>
 			</section>
 			<section>
-				&lt;import data-adma-import="<span>{{currentModel._hash}}</span>"&gt;<br />
-					<span>{{currentModel.numeSablon}}</span><br />
-					<span>{{currentModel.entitate}}</span><br />
-					Multiplicare procese: <span>{{currentModel.multiplicareProcese}}</span><br />
-					Aplică:  <span>{{currentModel.aplicare}}</span><br />
-					<span>{{currentModel.description}}</span><br />
-				&lt;/import&gt;
+				<span>&lt;import data-adma-import="{{currentModel._hash}}"&gt;</span>
+				<span>{{currentModel.numeSablon}}</span>
+				<span>{{currentModel.entitate}}</span>
+				<span>Multiplicare procese:  {{currentModel.multiplicareProcese}}</span>
+				<span>Aplică: {{currentModel.aplicare}}</span>
+				<span>{{currentModel.description}}</span>
+				<span>&lt;/import&gt;</span>
 			</section>
 		</iron-pages>
 	</template>
