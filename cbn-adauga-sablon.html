@@ -677,15 +677,12 @@
 					var form = this.$.formSablon;
 					if (event.detail.value == "email") {
 						this.showFormElement(form,
-							"zileTrimitere",
 							"subiectEmail",
 							"fromEmail",
 							"toEmail",
 							"ccEmail",
 							"bccEmail",
-							"oraTrimitere",
-							"minutTrimitere",
-							"atasamenteTrimitere",
+//							"atasamenteTrimitere",
 							"replyToEmail");
 					} else {
 						this._hideFields();
@@ -695,15 +692,12 @@
 			_hideFields: function () {
 				var form = this.$.formSablon;
 				this.hideFormElement(form,"currentModel",
-					"zileTrimitere",
 					"subiectEmail",
 					"fromEmail",
 					"toEmail",
 					"ccEmail",
 					"bccEmail",
-					"oraTrimitere",
-					"minutTrimitere",
-					"atasamenteTrimitere",
+//					"atasamenteTrimitere",
 					"replyToEmail");
 			}
 		})
