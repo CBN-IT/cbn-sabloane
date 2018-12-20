@@ -82,12 +82,12 @@
 					this.set("sablon.contentParametri", JSON.parse(sablon.contentParametri));
 					this.$.dialog.open();
 				} else {
-					this.generareRaport(this.sablon["_hash"], this.keys, false, this.currentModel);
+					this.generareRaport(this.sablon["_hash"], this.keys, false, this.currentModel, this.sablon.multiplicareProcese);
 				}
 			},
 			aplicaSablon: function(){
 				if(this.$.form.validate()){
-					this.generareRaport(this.sablon["_hash"], this.keys, false, this.currentModel);
+					this.generareRaport(this.sablon["_hash"], this.keys, false, this.currentModel, this.sablon.multiplicareProcese);
 					this.$.dialog.close();
 				} else{
 					this.message("Completati parametrii formularului","error");
